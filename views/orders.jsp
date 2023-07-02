@@ -44,50 +44,7 @@
         </div>
     </div>
     
-    <div id="BillModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-             <h2>Invoice</h2>
-    <table>
-        <tr>
-            <th>Order ID:</th>
-            <td>${invoice.orderId}</td>
-        </tr>
-        <tr>
-            <th>Bill No:</th>
-            <td>${invoice.billNo}</td>
-        </tr>
-        <tr>
-            <th>Order Date:</th>
-            <td>${invoice.orderDate}</td>
-        </tr>
-        <tr>
-            <th>Payment Mode:</th>
-            <td>${invoice.paymentMode}</td>
-        </tr>
-        <tr>
-            <th>Shipping Address:</th>
-            <td>${invoice.shippingAddress}</td>
-        </tr>
-        <tr>
-            <th>Shipment Date:</th>
-            <td>${invoice.shipmentDate}</td>
-        </tr>
-        <tr>
-            <th>Quantity:</th>
-            <td>${invoice.quantity}</td>
-        </tr>
-        <tr>
-            <th>GST:</th>
-            <td>${invoice.gst}</td>
-        </tr>
-        <tr>
-            <th>Price:</th>
-            <td>${invoice.price}</td>
-        </tr>
-    </table>
-        </div>
-    </div>
+   
     
 
  
@@ -110,9 +67,7 @@
                         <c:if test="${product.getShipStat() != 'delivered' && product.getShipStat() != 'cancelled'}">
                             <button class="btn btn-primary track-order-btn" data-orderproid="${product.getId()}"   data-orderid="${product. getOrdId()}">Track Order</button>
                         </c:if>
-                   <button class="btn btn-primary view-bill-btn" data-productid="${product.getId()}" data-orderid="${product.getOrdId()}">View Bill</button>
-                   <c:out value="${product.getId()}" />
-                   <c:out value="${product.getOrdId()}" />
+                  
                     </div>
                 </div>
             
