@@ -91,16 +91,7 @@ public class customerOrderController {
     return shipmentStatus;
   }
   
-  @GetMapping("/viewInvoice")
-  @ResponseBody
-  public Invoice viewInvoice(@RequestParam("orderId") int orderId,@RequestParam("productId") int productId, Model model) {
-	  System.out.println("view invoice");
-      Invoice invoice = orderdaov.getInvoiceByOrderId(orderId,productId);
-	  System.out.println("view invoice2");
-
-      model.addAttribute("invoice", invoice);
-      return invoice;
-  }
+ 
   
   @RequestMapping(value = "/sortorders", method = RequestMethod.POST)
   public String sortProducts(@RequestParam("sortOrder") String sortOrder, Model model, HttpSession session) {
