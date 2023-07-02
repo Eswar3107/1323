@@ -106,13 +106,5 @@ public class OrderDAOViewImp implements OrderDAOView {
 		jdbcTemplate.update(updateQuery_orders, shipmentStatus, orderId);
 	}
 	//getting invoice by order id
-	public Invoice getInvoiceByOrderId(int orderId,int productId) {
-        String query = "SELECT o.ordr_id, o.ordr_billno, o.ordr_odate, o.ordr_paymode, o.ordr_saddress, "
-                + "o.ordr_shipment_date, op.orpr_qty, op.orpr_gst, op.orpr_price "
-                + "FROM slam_orders o "
-                + "INNER JOIN slam_orderproducts op ON o.ordr_id = op.ordr_id "
-                + "WHERE o.ordr_id = ? and op.prod_id=?";
-
-        return jdbcTemplate.queryForObject(query, new Object[]{orderId,productId}, new InvoiceRowMapper());
-    }
+	
 }
