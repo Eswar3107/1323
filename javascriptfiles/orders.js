@@ -18,32 +18,7 @@ $(document).ready(function() {
     }
     
     
-     $('.view-bill-btn').click(function() {
-		 var orderId = $(this).data('orderid');
-        var productId = $(this).data('productid');
-        
-        var viewBillButton = $(this);
-      
-        console.log("orderId:",productId);
-        $.ajax({
-			
-            url: 'viewInvoice',
-            type: 'GET',
-            data: { 
-				orderId: orderId,
-                productId: productId
-               
-            },
-            success: function(response) {
-                displayModal('BillModal');
-                /*hideButtons(orderproId, orderId);*/
-            },
-            error: function(xhr, status, error) {
-				console.log(this.url)
-                // Handle any errors or display error message
-            }
-        });
-    });
+    
 
     // Event listener for cancel order button click
     $('.cancel-order-btn').click(function() {
