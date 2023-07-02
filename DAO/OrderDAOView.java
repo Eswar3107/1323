@@ -32,5 +32,4 @@ public interface OrderDAOView {
   public List<OrdersViewModel> filterProductsByPriceRange(List<OrdersViewModel> productList, double minPrice,
       double maxPrice);
   
-  public Invoice getInvoiceByOrderId(int orderId,int productId);
 }
