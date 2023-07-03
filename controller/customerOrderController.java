@@ -1,9 +1,7 @@
 package eStoreProduct.controller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import java.util.*;
 import javax.servlet.http.HttpSession;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import eStoreProduct.DAO.OrderDAOView;
 import eStoreProduct.DAO.ProdStockDAO;
-import eStoreProduct.model.Invoice;
+import eStoreProduct.model.Bill;
 import eStoreProduct.model.OrdersViewModel;
 import eStoreProduct.model.Product;
 import eStoreProduct.model.custCredModel;
@@ -25,8 +23,6 @@ import eStoreProduct.utility.ProductStockPrice;
 
 @Controller
 public class customerOrderController {
-	private static final Logger logger = 
-			LoggerFactory.getLogger(customerOrderController.class);
   
   @Autowired
   private OrderDAOView orderdaov;
@@ -40,8 +36,6 @@ public class customerOrderController {
   @RequestMapping("/CustomerOrdersProfile")
   // Method to show ordered products of the user
   public String showOrders(Model model, HttpSession session) {
-      logger.info("Showing orders");
-
     custCredModel cust = (custCredModel) session.getAttribute("customer");
     // Getting ordered products from the DAO
     List<OrdersViewModel> orderProducts = orderdaov.getorderProds(cust.getCustId());
@@ -54,7 +48,6 @@ public class customerOrderController {
   @GetMapping("/productDetails")
   public String getProductDetails(@RequestParam("id") int productId, @RequestParam("orderId") int orderid,Model model, HttpSession session) {
     custCredModel cust = (custCredModel) session.getAttribute("customer");
-    logger.info("Getting product details");
     OrdersViewModel product = orderdaov.OrdProductById(cust.getCustId(), productId,orderid);
     model.addAttribute("product", product);
     return "OrdProDetails";
@@ -65,7 +58,6 @@ public class customerOrderController {
   @ResponseBody
   public String cancelOrder(@RequestParam("orderproId") Integer productId, @RequestParam("orderId") int orderId) {
     // Cancelling order in the orderproducts table and updating the status
-	  logger.debug("Cancelling order with ID: " + productId + orderId);
     orderdaov.cancelorderbyId(productId, orderId);
     
     // Checking whether all the products in an order are cancelled or not
@@ -85,19 +77,13 @@ public class customerOrderController {
   // Method to track the order
   public String trackOrder(@RequestParam("orderproId") int productId, @RequestParam("orderId") int orderId) {
     // Retrieve the shipment status for the given order ID
-      logger.debug("Tracking order with ID: " + productId + orderId);
-
     String shipmentStatus = orderdaov.getShipmentStatus(productId, orderId);
     return shipmentStatus;
   }
   
- 
-  
   @RequestMapping(value = "/sortorders", method = RequestMethod.POST)
   public String sortProducts(@RequestParam("sortOrder") String sortOrder, Model model, HttpSession session) {
     // Sort the products based on the selected sorting option
-      logger.info("Sorting products");
-
     custCredModel cust = (custCredModel) session.getAttribute("customer");
     List<OrdersViewModel> ordersList = orderdaov.getorderProds(cust.getCustId());
     
@@ -106,4 +92,19 @@ public class customerOrderController {
       model.addAttribute("orderProducts", ordersList);
     }
     
-    return "orders";}}
+    return "orders";
+    }
+  
+  @RequestMapping(value="/getBill", method = RequestMethod.GET)
+ @ResponseBody
+  public Bill retrieveBill(@RequestParam("orderId") int orderId,@RequestParam("productId") int productId) {
+	  System.out.println("method start");
+      // Retrieve the bill details for the given order ID
+      Bill bill = orderdaov.getBill(orderId,productId);
+      
+      System.out.println(bill);
+
+      return bill;
+  }
+  
+}

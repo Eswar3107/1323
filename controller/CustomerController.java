@@ -189,15 +189,18 @@ public class CustomerController {
 		//getting orders gst
 		om.setGst(BLL.getOrderGST(products));
 		model.addAttribute("payment_id", om.getPaymentReference());
+		System.out.println("inorder insertion");
 		odao.insertIntoOrders(om, products);
 		for (ProductStockPrice p : products) {
-			
+			System.out.println("update stoks ki vachindi");
 			stckdao.updateStocks(p.getProd_id(), p.getQuantity());
+			System.out.println("update stoks complete");
+
 		}
 		//adding requried attributes to the model
 		
 		System.out.println(cust1+"                       customer in invoice");
-		invoiceMail.sendEmail(request, response, om, cust1.getCustEmail());
+		//invoiceMail.sendEmail(request, response, om, cust1.getCustEmail());
 		model.addAttribute("invoicecustomer", cust1);
 		model.addAttribute("payid", id);
 		session.setAttribute("products", products);

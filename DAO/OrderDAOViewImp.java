@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import eStoreProduct.model.*;
-import eStoreProduct.model.OrdersMapper;
 import eStoreProduct.model.OrdersViewModel;
 
 @Component
@@ -20,10 +19,13 @@ public class OrderDAOViewImp implements OrderDAOView {
 
 	private final JdbcTemplate jdbcTemplate;
 	private final RowMapper<OrdersViewModel> ordersMapper;
+	private final RowMapper<Bill> BillMapper;
+	
 
 	public OrderDAOViewImp(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.ordersMapper = new OrdersMapper();
+		this.BillMapper=new BillMapper();
 	}
 
 	// Retrieve ordered products for a given customer ID
@@ -64,11 +66,10 @@ public class OrderDAOViewImp implements OrderDAOView {
 	public String getShipmentStatus(int productId, int orderId) {
 		String sql = "SELECT orpr_shipment_status FROM slam_orderproducts WHERE prod_id = ? and ordr_id=?";
 
-		try {
+	
 			return jdbcTemplate.queryForObject(sql, new Object[] { productId, orderId }, String.class);
-		} catch (EmptyResultDataAccessException e) {
-			return null; // Handle the case when shipment status is not found
-		}
+		
+		
 	}
 
 	// Sort the list of ordered products by price based on the given sort order
@@ -105,6 +106,15 @@ public class OrderDAOViewImp implements OrderDAOView {
 		String updateQuery_orders = "UPDATE slam_Orders SET ordr_shipment_status = ? WHERE ordr_id = ?";
 		jdbcTemplate.update(updateQuery_orders, shipmentStatus, orderId);
 	}
-	//getting invoice by order id
 	
+	//getting bill by order id and product id
+		public Bill getBill(int orderId,int productId) {
+	        String query = "SELECT o.ordr_id, o.ordr_billno, o.ordr_odate, o.ordr_paymode, o.ordr_saddress, "
+	                + "o.ordr_shipment_date, op.orpr_qty, op.orpr_gst, op.orpr_price "
+	                + "FROM slam_orders o "
+	                + "INNER JOIN slam_orderproducts op ON o.ordr_id = op.ordr_id "
+	                + "WHERE o.ordr_id = ? and op.prod_id=?";
+            System.out.println(query);
+	        return jdbcTemplate.queryForObject(query, new Object[]{orderId,productId}, new BillMapper());
+	    }
 }

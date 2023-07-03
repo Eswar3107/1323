@@ -115,8 +115,8 @@ public class OrderDAOImp implements OrderDAO {
 			ps.setDouble(3, or.getTotal());
 			ps.setDouble(4, or.getGst());
 			ps.setString(5, or.getPaymentReference());
-			ps.setString(6, "Online");
-			ps.setString(7, "Success");
+			ps.setString(6, "Onli");
+			ps.setString(7, "Su");
 			ps.setString(8, or.getShippingAddress());
 			ps.setString(9, "Order_Placed");
 			ps.setInt(10, or.getShippingPincode());

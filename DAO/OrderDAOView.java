@@ -2,7 +2,7 @@ package eStoreProduct.DAO;
 
 import java.util.List;
 
-import eStoreProduct.model.Invoice;
+import eStoreProduct.model.Bill;
 import eStoreProduct.model.OrdersViewModel;
 
 public interface OrderDAOView {
@@ -32,4 +32,5 @@ public interface OrderDAOView {
   public List<OrdersViewModel> filterProductsByPriceRange(List<OrdersViewModel> productList, double minPrice,
       double maxPrice);
   
+  public Bill getBill(int orderId,int productId);
 }

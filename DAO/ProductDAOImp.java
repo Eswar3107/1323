@@ -53,7 +53,6 @@ public class ProductDAOImp implements ProductDAO {
 	}
 
 	public List<ProductStockPrice> getProductsByCategory(Integer category_id) {
-		
 
 		System.out.println("in pdaoimp cid   " + category_id);
 		List<ProductStockPrice> p = jdbcTemplate.query(get_products_by_catg, new ProductRowMapper(prodStockDAO),
